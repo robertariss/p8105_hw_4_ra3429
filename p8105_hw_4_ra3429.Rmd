@@ -36,7 +36,7 @@ ny_noaa_df =
 Column {data-width=650}
 -----------------------------------------------------------------------
 
-### Boxplot: Snowfall distribution by year (since 2000)
+### Snowfall distribution by year
 
 ```{r}
 ny_noaa_df |>
@@ -49,7 +49,7 @@ ny_noaa_df |>
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Average Maximum Temperature and Snow in January by Year  
+### Average Maximum Temperature and Average Snow in January by Year  
 
 ```{r}
 ny_noaa_df |>
@@ -65,17 +65,26 @@ ny_noaa_df |>
   
 ```
 
-### Chart C
+### Total Recorded Snow Fall Per Station in 2000
 
 ```{r}
-#ny_noaa_df |>
-  #filter(year > 2009)
-  #plot_ly(x = ~year, y = ~snow, type = "scatter", mode = "markers", 
-         # color = ~tmax, alpha = 0.5)
-
-```
-```
-
-
-
-
+ny_noaa_df |>
+  filter(year == 2000) |>
+  group_by(id) |>
+  summarize(
+    sum_snow_id = sum(snow, na.rm = TRUE),
+    average_tmax_id = mean(tmax, na.rm = TRUE)
+  ) |>
+  drop_na(average_tmax_id) |> 
+  arrange(average_tmax_id) |>
+  mutate(id = factor(id, levels = id)) |>     
+  plot_ly(x = ~id, 
+          y = ~sum_snow_id, 
+          type = "bar", 
+          marker = list(
+            color = ~average_tmax_id, 
+            colorscale = "Viridis", 
+            showscale = TRUE, 
+            colorbar = list(title = "Mean Tmax")
+          )
+    )
