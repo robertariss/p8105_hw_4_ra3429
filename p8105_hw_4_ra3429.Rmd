@@ -43,7 +43,10 @@ ny_noaa_df |>
   filter(snow > 0, snow < 100) |>
   mutate(year = factor(year)) |>
   plot_ly(y = ~ snow, color = ~year, 
-          type = "box", colors = "viridis")
+          type = "box", colors = "viridis") |>
+  layout(
+    yaxis = list(title = "Snowfall (mm)")
+  )
 ```
 
 Column {data-width=350}
@@ -61,6 +64,9 @@ ny_noaa_df |>
   ) |>
   plot_ly(
     x = ~year, y = ~jan_tmax_average, type = "scatter", color = ~jan_snow_average, mode = "markers", alpha = 0.5, colors = "viridis"
+  ) |>
+  layout(
+    yaxis = list(title = "January Mean Maximum Tamperature (mm)")
   )
   
 ```
@@ -87,4 +93,7 @@ ny_noaa_df |>
             showscale = TRUE, 
             colorbar = list(title = "Mean Tmax")
           )
-    )
+    ) |>
+  layout(
+    yaxis = list(title = "Total Snowfall (mm)")
+  )
