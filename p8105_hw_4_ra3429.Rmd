@@ -1,46 +1,21 @@
 ---
 title: "HW4 for P8105"
-output: github_document
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
 ---
 
-Loading packages and data:
-
-```{r}
+```{r setup, include=FALSE}
+library(flexdashboard)
 library(tidyverse)
-library(plotly)
+library(ggplot2)
 library(p8105.datasets)
 data("ny_noaa")
 ```
 
-
-# Problem 1
-The NY NOAA dataset is compiled from the NOAA NCEI daily database of summary stats from weather stations in the world. This data is focused on the NY state weather stations. 
-
-The key variables are: 
-
-* id: weather station ID
-* date: date of observation
-* prcp: precipitation (in tenths of mm)
-* snow: snowfall (mm)
-* snwd: snow depth (mm)
-* tmax: maximum temperature (tenths of degrees C)
-* tmin: minimum temperature (tenths of degrees C)
-
-There is extensive missing data. 
-```{r}
-ny_noaa |>
-  summarize(
-    across(
-      everything(),
-      ~ mean(is.na(.)) * 100
-    )
-  )
-```
-We see that prcp has 5.6% missing, snow has 14.7% missing, snwd has 22.8% missing, tmax has 43.7% missing, and tmin has 43.7% missing
-
-## We will clean the data
-Generate separate variables for month date and year. In addition convert prcp, tmax, tmin to units of mm and degrees C respectively. 
-```{r}
+Cleaning and tidying the dataset. 
+```{r include=FALSE}
 ny_noaa_df = 
   ny_noaa |> 
   janitor::clean_names() |>
@@ -56,4 +31,32 @@ ny_noaa_df =
     tmin = as.numeric(tmin) / 10
   )
 ```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+```
+
+
+
 
